@@ -18,6 +18,11 @@
                             <td>{{$data->nama}}</td>
                         </tr>
                         <tr>
+                            <th>Kode</th>
+                            <td>:</td>
+                            <td>{{$data->kode}}</td>
+                        </tr>
+                        <tr>
                             <th>List Items</th>
                             <td>:</td>
                         </tr>
