@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MasterItemsController extends Controller
 {
@@ -25,7 +26,7 @@ class MasterItemsController extends Controller
         if (!empty($nama)) $data_search = $data_search->where('nama', 'LIKE', '%' . $nama . '%');
         if (!empty($hargamin)) $data_search = $data_search->where('harga_beli', '>=', $hargamin)->where('harga_beli', '<=', $hargamax);
 
-        $data_search = $data_search->select('kode', 'nama', 'jenis', 'harga_beli', 'laba', 'supplier')->orderBy('id')->get();
+        $data_search = $data_search->select('kode', 'nama', 'jenis', 'harga_beli', 'laba', 'supplier', 'foto')->orderBy('id')->get();
 
 
         return json_encode([
@@ -65,12 +66,23 @@ class MasterItemsController extends Controller
             $kode = $data_item->kode;
         }
 
+        if ($request->hasFile('foto')) {
+            $photo = $request->file('foto');
+
+            $namePhoto = $photo->getClientOriginalName();
+            $photo->storeAs('public/master_items', $namePhoto);
+            if ($data_item->foto) {
+                Storage::disk('public')->delete('master_items/'.$data_item->foto);
+            }
+        }
+        
         $data_item->nama = $request->nama;
         $data_item->harga_beli = $request->harga_beli;
         $data_item->laba = $request->laba;
         $data_item->kode = $kode;
         $data_item->supplier = $request->supplier;
         $data_item->jenis = $request->jenis;
+        $data_item->foto = $namePhoto ?? null;
         $data_item->save();
 
         return redirect('master-items');

@@ -13,6 +13,13 @@
                 <div class="card-body">
                     <table>
                         <tr>
+                            <th>Foto</th>
+                            <td>:</td>
+                            <td>
+                                <img style="width: 100%" src="{{ config('app.url').'/storage/master_items/'.$data->foto }}" alt="No Image">
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Nama</th>
                             <td>:</td>
                             <td>{{$data->nama}}</td>

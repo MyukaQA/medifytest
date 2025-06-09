@@ -44,15 +44,19 @@
                     var harga_jual = item.harga_beli + item.harga_beli * item.laba / 100;
                     harga_jual = Math.round(harga_jual)
                     var kode = item.kode;
+                    var foto = item.foto;
+                    console.log(item);
 
                     var html = `<a href="{{url('master-items/view/')}}/` + kode + `" class="btn btn-primary">View</a>`
 
+                    var image = `<img style="width: 100%;" src="storage/master_items/` + foto + `" alt="No Image">`;
                     $.each(item, function(obj_name, obj_value) {
                         if (obj_name == 'laba') return false;
                         array_temp.push(obj_value)
                     })
                     array_temp.push(harga_jual)
                     array_temp.push(item.supplier)
+                    array_temp.push(image)
                     array_temp.push(html)
 
 

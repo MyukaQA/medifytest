@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     @csrf
     @if($method == 'edit')
     <div class="form-group">
@@ -6,6 +6,17 @@
         <input type="text" class="form-control" name="kode_barang" required readonly value="{{$item->kode ?? ''}}">
     </div>
     @endif
+
+    <div class="form-group">
+        @if ($item->foto)
+            <div>
+                <p>Foto Sebelumnya</p>
+                <img style="width: 50%" src="{{ config('app.url').'/storage/master_items/'.$item->foto }}" alt="No Image">
+            </div>
+        @endif
+        <label>Foto</label>
+        <input type="file" class="form-control" name="foto" id="foto">
+    </div>
 
     <div class="form-group">
         <label>Nama</label>
