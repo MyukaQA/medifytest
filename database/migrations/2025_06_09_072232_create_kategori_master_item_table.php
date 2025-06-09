@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('kategori_master_item', function (Blueprint $table) {
             $table->id();
             $table->foreignId('master_item_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_items_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

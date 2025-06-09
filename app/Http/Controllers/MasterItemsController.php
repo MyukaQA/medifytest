@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryItems;
 use App\Models\MasterItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -45,6 +46,7 @@ class MasterItemsController extends Controller
         }
         $data['item'] = $item;
         $data['method'] = $method;
+        $data['category'] = CategoryItems::pluck('nama', 'id')->toArray();
         return view('master_items.form.index', $data);
     }
 
@@ -65,6 +67,7 @@ class MasterItemsController extends Controller
         } else {
             $data_item = MasterItem::find($id);
             $kode = $data_item->kode;
+            $data_item->categoryitems()->sync($request->category_items);
         }
 
         if ($request->hasFile('foto')) {
@@ -85,6 +88,10 @@ class MasterItemsController extends Controller
         $data_item->jenis = $request->jenis;
         $data_item->foto = $namePhoto ?? null;
         $data_item->save();
+        
+        if ($method == 'new') {
+            $data_item->categoryitems()->attach($request->category_items);
+        }
 
         return redirect('master-items');
     }

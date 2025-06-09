@@ -8,7 +8,10 @@
     @endif
 
     <div class="form-group">
-        @if ($item->foto)
+        @php
+            $foto = $item->foto ?? null;
+        @endphp
+        @if ($foto)
             <div>
                 <p>Foto Sebelumnya</p>
                 <img style="width: 50%" src="{{ config('app.url').'/storage/master_items/'.$item->foto }}" alt="No Image">
@@ -31,6 +34,22 @@
     <div class="form-group">
         <label>Laba (dalam persen)</label>
         <input type="number" class="form-control" name="laba" required  value="{{$item->laba ?? ''}}">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Kategori</label><br>
+        @if ($item)
+            @foreach ($category as $key => $itemCategory)
+                <input type="checkbox" name="category_items[]" value="{{ $key }}"
+                {{ $item->categoryitems->contains($key) ? 'checked' : '' }}>
+                {{ $itemCategory }} <br>
+            @endforeach
+        @else
+            @foreach ($category as $key => $item)
+                <input type="checkbox" name="category_items[]" value="{{ $key }}">
+                {{ $item }} <br>
+            @endforeach
+        @endif
     </div>
 
     @php $selected = $item->supplier ?? ''; @endphp

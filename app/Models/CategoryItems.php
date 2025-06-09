@@ -12,4 +12,9 @@ class CategoryItems extends Model
     protected $table = 'category_items';
 
     protected $guarded = [''];
+
+    public function masteritems()
+    {
+        return $this->belongsToMany(MasterItem::class, 'kategori_master_item');
+    }
 }
