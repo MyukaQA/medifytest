@@ -21,15 +21,14 @@ class MasterItemsController extends Controller
         $hargamin = $request->hargamin;
         $hargamax = $request->hargamax;
 
-        $data_search = MasterItem::query();
+        $data_search = MasterItem::query()->with(['categoryitems']);
 
         if (!empty($kode)) $data_search = $data_search->where('kode', $kode);
         if (!empty($nama)) $data_search = $data_search->where('nama', 'LIKE', '%' . $nama . '%');
         if (!empty($hargamin)) $data_search = $data_search->where('harga_beli', '>=', $hargamin);
         if (!empty($hargamax)) $data_search = $data_search->where('harga_beli', '<=', $hargamax);
 
-        $data_search = $data_search->select('kode', 'nama', 'jenis', 'harga_beli', 'laba', 'supplier', 'foto')->orderBy('id')->get();
-
+        $data_search = $data_search->select('id', 'kode', 'nama', 'jenis', 'harga_beli', 'laba', 'supplier', 'foto')->orderBy('id')->get();
 
         return json_encode([
             'status' => 200,
